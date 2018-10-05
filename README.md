@@ -1,24 +1,15 @@
 # README
+## Running the Application
+Clone the repository,
+Run following commands:
+- `bundle install` This installs the dependencies
+- `bin/rails s` This runs the server
+- `bin/rails db:create` Create the databases
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installing with Docker Compose
+- `docker-compose build` Build the images
+- `docker-compose up` Start docker processes
+- `docker-compose run web rails db:create` Create the databases
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## View the homapage
+- `curl 127.0.0.1:3000` Curl the homepage
