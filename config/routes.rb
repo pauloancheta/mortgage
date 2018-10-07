@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get "/payment-amount" => "amount#payment"
+  get "/mortgage-amount" => "amount#mortgage"
+  patch "/interest-rate" => "amount#update_interest_rate"
 end
