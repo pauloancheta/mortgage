@@ -1,10 +1,7 @@
 class Compute::Payment
   include Service
 
-  PAYMENT_SCHEDULES = ["weekly", "bi-weekly", "monthly"]
 
-  MIN_AMORTIZATION_PERIOD = 5
-  MAX_AMORTIZATION_PERIOD = 25
   MONTHS_IN_A_YEAR = 12
 
   FIRST_DOWN_PAYMENT_PERCENTAGE = 0.05
@@ -13,13 +10,11 @@ class Compute::Payment
 
   attribute :asking_price, Integer
   attribute :down_payment, Integer
-  attribute :amortization_period, Integer
-  attribute :payment_schedule, String
+  attribute :amortization_period, AmortizationPeriod
+  attribute :payment_schedule, PaymentSchedule
   attribute :interest_rate, Float, default: proc { InterestRate.current_rate }
 
   def call
-    raise InvalidPaymentSchedule if !valid_payment_schedule?
-    raise InvalidAmortizationPeriod if !valid_amortization_period?
     raise InvalidDownPayment if !valid_down_payment?
 
     # P = L [c(1 + c)^n] / [(1+c)^n - 1]
@@ -50,14 +45,6 @@ class Compute::Payment
     (interest_rate / MONTHS_IN_A_YEAR) / 100
   end
 
-  def valid_payment_schedule?
-    PAYMENT_SCHEDULES.include?(payment_schedule)
-  end
-
-  def valid_amortization_period?
-    amortization_period.between?(MIN_AMORTIZATION_PERIOD, MAX_AMORTIZATION_PERIOD)
-  end
-
   def valid_down_payment?
     return (asking_price * FIRST_DOWN_PAYMENT) > down_payment if asking_price <= FIRST_DOWN_PAYMENT
 
@@ -67,7 +54,5 @@ class Compute::Payment
     (first_down_payment + second_down_payment) <= down_payment
   end
 
-  class InvalidPaymentSchedule < StandardError; end
-  class InvalidAmortizationPeriod < StandardError; end
   class InvalidDownPayment < StandardError; end
 end

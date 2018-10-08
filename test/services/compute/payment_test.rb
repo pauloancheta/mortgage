@@ -17,7 +17,7 @@ class Payment < ActiveSupport::TestCase
       assert_not_nil call_service(payment_schedule: schedule)
     end
 
-    assert_raises(Compute::Payment::InvalidPaymentSchedule) {
+    assert_raises(PaymentSchedule::InvalidPaymentSchedule) {
       call_service(payment_schedule: "foo")
     }
   end
@@ -27,7 +27,7 @@ class Payment < ActiveSupport::TestCase
     assert_not_nil call_service(amortization_period: 5)
     assert_not_nil call_service(amortization_period: 25)
 
-    assert_raises(Compute::Payment::InvalidAmortizationPeriod) {
+    assert_raises(AmortizationPeriod::InvalidAmortizationPeriod) {
       call_service(amortization_period: 26)
     }
   end
