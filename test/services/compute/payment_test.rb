@@ -4,7 +4,7 @@ class Payment < ActiveSupport::TestCase
   def call_service(attributes = {})
     defaults = {
       asking_price: 1_000_000,
-      down_payment: 100_000,
+      down_payment: 300_000,
       amortization_period: 5,
       payment_schedule: "weekly"
     }.merge(attributes)
@@ -33,11 +33,14 @@ class Payment < ActiveSupport::TestCase
   end
 
   test "down payment has to be more than 5% of the asking price" do
+    assert_not_nil call_service(asking_price: 750_000, down_payment: 50_000)
+
     assert_raises(Compute::Payment::InvalidDownPayment) {
-      call_service(down_payment: 40_000)
+      call_service(asking_price: 750_000, down_payment: 49_000)
     }
   end
 
   test "payment is calculated" do
+    assert_equal call_service, 12423.15
   end
 end
