@@ -1,5 +1,4 @@
 class AmountController < ApplicationController
-  MORTGAGE_INTEREST_RATE = 2.5
 
   # @params
   # asking_price
@@ -33,8 +32,14 @@ class AmountController < ApplicationController
 
   # Change interest rate used by the application
   def update_interest_rate
-    @interest_rate ||= MORTGAGE_INTEREST_RATE
-  end
+    rate = params[:interest_rate]
+    current_rate = InterestRate.current_rate
 
-  private
+    if rate.is_a?(Float) || rate.is_a?(Integer)
+      updated_rate = InterestRate.update_current_rate!(rate: rate.to_f)
+      render json: {"new_rate" => updated_rate.rate, "old_rate" => current_rate}
+    else
+      render json: {"error" => "Parameter rate is not a number. Use a whole number or a decimal. For example: 2.5"}
+    end
+  end
 end
