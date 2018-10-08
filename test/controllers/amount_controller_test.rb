@@ -2,8 +2,8 @@ require 'test_helper'
 
 class AmountControllerTest < ActionDispatch::IntegrationTest
   test "passing params should be valid" do
-    @params = {asking_price: 1, down_payment: 1, payment_schedule: "weekly"}.to_json
-    get payment_path(@params), as: :json
+    params = {asking_price: 100_000, amortization_period: 5, down_payment: 20_000, payment_schedule: "weekly"}
+    get payment_path(params), as: :json
     assert_response :success
   end
 
