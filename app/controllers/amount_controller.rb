@@ -11,7 +11,12 @@ class AmountController < ApplicationController
   # @return
   # Payment amount per scheduled payment
   def payment
-    val = "hello world"
+    val = Compute::Payment.call(
+      asking_price: params.fetch(:asking_price),
+      down_payment: params.fetch(:down_payment),
+      amortization_period: params.fetch(:amortization_period),
+      payment_schedule: params.fetch(:payment_schedule),
+    )
     render json: {"mortgage-amount" => val}
   end
 
