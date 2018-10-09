@@ -50,7 +50,7 @@ class AmountController < ApplicationController
     current_rate = InterestRate.current_rate
 
     if rate.is_a?(Float) || rate.is_a?(Integer)
-      updated_rate = InterestRate.update_current_rate!(rate: rate.to_f)
+      updated_rate = InterestRate.update_current_rate!(rate: [rate.to_f, 0].max)
       render json: {"new_rate" => updated_rate.rate, "old_rate" => current_rate}
     else
       render json: {"error" => "Parameter rate is not a number. Use a whole number or a decimal. For example: 2.5"}
