@@ -35,7 +35,7 @@ class Payment < ActiveSupport::TestCase
   test "down payment has to be more than 5% of the asking price" do
     assert_not_nil call_service(asking_price: 750_000, down_payment: 50_000)
 
-    assert_raises(Compute::Payment::InvalidDownPayment) {
+    assert_raises(DownPayment::InvalidDownPayment) {
       call_service(asking_price: 750_000, down_payment: 49_000)
     }
   end
