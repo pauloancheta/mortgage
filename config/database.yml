@@ -8,14 +8,14 @@ default: &default
 
 development:
   <<: *default
-  database: it_glue_development
+  database: mortgage_development
 
 test:
   <<: *default
-  database: it_glue_test
+  database: mortgage_test
 
 production:
   <<: *default
-  database: it_glue_production
-  username: it_glue
-  password: <%= ENV['IT_GLUE_DATABASE_PASSWORD'] %>
+  database: mortgage_production
+  username: mortgage
+  password: <%= ENV['MORTGAGE_DATABASE_PASSWORD'] %>
