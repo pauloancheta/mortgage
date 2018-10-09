@@ -24,7 +24,9 @@ class Compute::Payment
     dividend = loan_amount * monthly_interest_rate * interest
     divisor = interest - 1
 
-    (dividend / divisor).round(2)
+    ::PaymentAmount.new(
+      amount: (dividend / divisor)
+    ).send(payment_schedule.underscore)
   end
 
   private

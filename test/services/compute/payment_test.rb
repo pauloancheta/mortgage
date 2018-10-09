@@ -41,6 +41,6 @@ class Payment < ActiveSupport::TestCase
   end
 
   test "payment is calculated" do
-    assert_equal call_service, 12423.15
+    assert_equal call_service, 2866.88
   end
 end
