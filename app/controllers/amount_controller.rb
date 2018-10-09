@@ -31,7 +31,12 @@ class AmountController < ApplicationController
   # @return
   # Maximum mortgage that can be taken out
   def mortgage
-    val = "hello world"
+    val = Compute::Mortgage.call(
+      payment_amount: params.fetch(:payment_amount),
+      down_payment: params.fetch(:down_payment, 0), # optional
+      amortization_period: params.fetch(:amortization_period),
+      payment_schedule: params.fetch(:payment_schedule),
+    )
     render json: {"mortgage-amount" => val}
   end
 
