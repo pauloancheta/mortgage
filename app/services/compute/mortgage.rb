@@ -11,8 +11,8 @@ class Compute::Mortgage
 
   MONTHS_IN_A_YEAR = 12
 
-  attribute :payment_amount, Float
-  attribute :down_payment, Float, default: 0.0
+  attribute :payment_amount, Money
+  attribute :down_payment, Money
   attribute :amortization_period, AmortizationPeriod
   attribute :payment_schedule, PaymentSchedule
 
@@ -23,7 +23,7 @@ class Compute::Mortgage
     dividend = payments.monthly * (interest - 1)
     divisor = interest * monthly_interest_rate
 
-    (dividend/divisor).round(2) + down_payment.round(2)
+    down_payment + (dividend/divisor).round(2)
   end
 
   private

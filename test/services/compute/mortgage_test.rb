@@ -3,8 +3,8 @@ require 'test_helper'
 class Mortgage < ActiveSupport::TestCase
   def call_service(attributes = {})
     defaults = {
-      payment_amount: 1_000,
-      down_payment: 20_000,
+      payment_amount: Money.new(amount: 1_000),
+      down_payment: Money.new(amount: 20_000),
       amortization_period: 5,
       payment_schedule: "weekly"
     }.merge(attributes)
@@ -17,7 +17,7 @@ class Mortgage < ActiveSupport::TestCase
   end
 
   test "provides principal without down payment" do
-    assert_not_nil call_service(down_payment: 0)
+    assert_not_nil call_service(down_payment: Money.new(amount: 0))
   end
 
   test "provides principal mortgage" do

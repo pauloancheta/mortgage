@@ -11,9 +11,11 @@ class AmountController < ApplicationController
   # @return
   # Payment amount per scheduled payment
   def payment
+    asking_price = Money.new(amount: params.fetch(:asking_price))
+    down_payment = Money.new(amount: params.fetch(:down_payment))
     val = Compute::Payment.call(
-      asking_price: params.fetch(:asking_price),
-      down_payment: params.fetch(:down_payment),
+      asking_price: asking_price,
+      down_payment: down_payment,
       amortization_period: params.fetch(:amortization_period),
       payment_schedule: params.fetch(:payment_schedule),
     )
@@ -31,9 +33,11 @@ class AmountController < ApplicationController
   # @return
   # Maximum mortgage that can be taken out
   def mortgage
+    payment_amount = Money.new(amount: params.fetch(:payment_amount))
+    down_payment = Money.new(amount: params.fetch(:down_payment, 0))
     val = Compute::Mortgage.call(
-      payment_amount: params.fetch(:payment_amount),
-      down_payment: params.fetch(:down_payment, 0), # optional
+      payment_amount: payment_amount,
+      down_payment: down_payment, # optional
       amortization_period: params.fetch(:amortization_period),
       payment_schedule: params.fetch(:payment_schedule),
     )
